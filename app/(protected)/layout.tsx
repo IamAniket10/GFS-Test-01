@@ -11,6 +11,7 @@ import {
   GraduationCap,
   Sparkles,
   Menu,
+  StickyNote,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -40,6 +41,11 @@ const navItems = [
     icon: ShieldAlert,
     adminOnly: true,
   },
+  {
+    title: "Notes Page",
+    href: "/notes",
+    icon: StickyNote,
+  },
 ];
 
 export default function ProtectedLayout({
@@ -57,7 +63,7 @@ export default function ProtectedLayout({
 function ProtectedLayoutContent({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
-  const { canAccessAdmin, loading } = useAuth();
+  const { canAccessAdmin } = useAuth();
 
   const [isOpen, setIsOpen] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
