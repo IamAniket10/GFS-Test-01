@@ -11,6 +11,7 @@ import {
   GraduationCap,
   Sparkles,
   Menu,
+  Trophy,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -35,6 +36,11 @@ const navItems = [
     icon: BookOpen,
   },
   {
+    title: "Today's Wins",
+    href: "/wins",
+    icon: Trophy,
+  },
+  {
     title: "Admin",
     href: "/admin",
     icon: ShieldAlert,
@@ -57,7 +63,7 @@ export default function ProtectedLayout({
 function ProtectedLayoutContent({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
-  const { canAccessAdmin, loading } = useAuth();
+  const { canAccessAdmin } = useAuth();
 
   const [isOpen, setIsOpen] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
@@ -83,6 +89,7 @@ function ProtectedLayoutContent({ children }: { children: React.ReactNode }) {
     const segment = pathname.split("/")[1];
 
     if (!segment) return "Dashboard";
+    if (segment === "wins") return "Today's Wins";
 
     return segment.charAt(0).toUpperCase() + segment.slice(1);
   };
