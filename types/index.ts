@@ -36,3 +36,29 @@ export interface Homework {
   due_date: string;
   status: "pending" | "submitted" | "reviewed";
 }
+//------------------Registration form-------------------
+export interface Registration {
+  id: string;
+  full_name: string;
+  email: string;
+  phone: string;
+  course: string;
+  message: string | null;
+  created_at: string;
+}
+
+export interface CreateRegistrationInput {
+  full_name: string;
+  email: string;
+  phone: string;
+  course: string;
+  message?: string;
+}
+
+export interface UpdateRegistrationInput {
+  full_name?: string;
+  email?: string;
+  phone?: string;
+  course?: string;
+  message?: string | null;
+}
