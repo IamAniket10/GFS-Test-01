@@ -11,6 +11,7 @@ import {
   GraduationCap,
   Sparkles,
   Menu,
+  Trophy,
   StickyNote,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -34,6 +35,11 @@ const navItems = [
     title: "Courses",
     href: "/courses",
     icon: BookOpen,
+  },
+  {
+    title: "Today's Wins",
+    href: "/wins",
+    icon: Trophy,
   },
   {
     title: "Admin",
@@ -89,6 +95,7 @@ function ProtectedLayoutContent({ children }: { children: React.ReactNode }) {
     const segment = pathname.split("/")[1];
 
     if (!segment) return "Dashboard";
+    if (segment === "wins") return "Today's Wins";
 
     return segment.charAt(0).toUpperCase() + segment.slice(1);
   };

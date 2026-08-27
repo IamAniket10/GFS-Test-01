@@ -24,7 +24,7 @@ import {
 } from "lucide-react";
 
 export default function DashboardPage() {
-  const { profile, canWrite } = useAuth();
+  const { user: profile, canWrite } = useAuth();
   const { courses, loading } = useCourses();
 
   // Dynamic metrics derived from live state
