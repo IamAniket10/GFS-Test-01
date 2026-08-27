@@ -60,3 +60,7 @@ export interface UpdateNoteInput {
   content?: string;
   link?: string | null;
 }
+
+//----- Referrals --------------
+export * from "./referrals";
+

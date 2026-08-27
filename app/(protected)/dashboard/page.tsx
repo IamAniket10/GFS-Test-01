@@ -3,7 +3,10 @@
 import Link from "next/link";
 import { useAuth } from "@/context/authContext";
 import { useCourses } from "@/hooks/useCourses";
+import { UserReferralsSection } from "@/app/components/referrals/UserReferralsSection";
+import { ReferralModalDialog } from "@/app/components/referrals/ReferralModalDialog";
 import { Button } from "@/components/ui/button";
+
 import {
   Card,
   CardContent,
@@ -24,14 +27,14 @@ import {
 } from "lucide-react";
 
 export default function DashboardPage() {
-  const { profile, canWrite } = useAuth();
+  const { user, canWrite } = useAuth();
   const { courses, loading } = useCourses();
 
   // Dynamic metrics derived from live state
   const totalCourses = courses.length;
   const activeCourses = courses.filter((c) => c.is_active).length;
   const isAdminOrSubAdmin =
-    profile?.role === "admin" || profile?.role === "sub_admin";
+    user?.role === "admin" || user?.role === "sub_admin";
   const hasCourseWriteAccess = canWrite("courses");
 
   return (
@@ -47,7 +50,7 @@ export default function DashboardPage() {
             </div>
             <div>
               <h2 className="text-xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
-                Welcome back{profile?.full_name ? `, ${profile.full_name}` : ""}
+                Welcome back{user?.full_name ? `, ${user.full_name}` : ""}
                 !
               </h2>
               <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
@@ -63,7 +66,7 @@ export default function DashboardPage() {
               className="gap-1.5 text-[10px] font-bold tracking-wide uppercase px-3 py-1 rounded-full border-indigo-200 bg-indigo-50 text-indigo-700 dark:border-indigo-900/60 dark:bg-indigo-950/60 dark:text-indigo-400"
             >
               <TrendingUp className="h-3 w-3" />
-              Role: {profile?.role || "Student"}
+              Role: {user?.role || "Student"}
             </Badge>
 
             {!hasCourseWriteAccess && (
@@ -77,6 +80,7 @@ export default function DashboardPage() {
           </div>
         </div>
       </div>
+
 
       {/* Metric Cards Grid */}
       <div className="grid gap-5 sm:grid-cols-3">
@@ -116,7 +120,7 @@ export default function DashboardPage() {
           </CardHeader>
           <CardContent className="px-5 pb-5">
             <div className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100 capitalize">
-              {profile?.role || "Student"}
+              {user?.role || "Student"}
             </div>
             <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
               {isAdminOrSubAdmin
@@ -124,6 +128,7 @@ export default function DashboardPage() {
                 : "Enrolled student account"}
             </p>
           </CardContent>
+
         </Card>
 
         {/* Homework Portal Card */}
@@ -172,6 +177,9 @@ export default function DashboardPage() {
             </Link>
           </Button>
 
+          {/* Quick referral button */}
+          <ReferralModalDialog />
+
           {/* Admin shortcut rendered strictly for admin/sub_admin roles */}
           {isAdminOrSubAdmin && (
             <Button
@@ -188,6 +196,10 @@ export default function DashboardPage() {
           )}
         </CardContent>
       </Card>
+
+      {/* User's Client Referrals Tracker */}
+      <UserReferralsSection />
     </div>
   );
 }
+
