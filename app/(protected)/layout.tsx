@@ -11,6 +11,7 @@ import {
   GraduationCap,
   Sparkles,
   Menu,
+  StickyNote,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -40,6 +41,11 @@ const navItems = [
     icon: ShieldAlert,
     adminOnly: true,
   },
+  {
+    title: "Notes Page",
+    href: "/notes",
+    icon: StickyNote,
+  },
 ];
 
 export default function ProtectedLayout({
@@ -57,7 +63,7 @@ export default function ProtectedLayout({
 function ProtectedLayoutContent({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
-  const { canAccessAdmin, loading } = useAuth();
+  const { canAccessAdmin } = useAuth();
 
   const [isOpen, setIsOpen] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
@@ -106,11 +112,9 @@ function ProtectedLayoutContent({ children }: { children: React.ReactNode }) {
 
   const SidebarContent = () => (
     <div className="flex flex-col justify-between h-full">
-      <div>
+      <div className="flex-1">
         <nav className="p-3.5 space-y-1">
           {navItems.map((item) => {
-            // Admin navigation is only visible to users
-            // who have administrative access.
             if (item.adminOnly && !canAccessAdmin) {
               return null;
             }
@@ -176,20 +180,20 @@ function ProtectedLayoutContent({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row bg-slate-50/60 dark:bg-slate-950 text-slate-900 dark:text-slate-100 antialiased">
-      <aside className="hidden md:flex w-64 border-r border-slate-200/80 dark:border-slate-800/80 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md flex-col justify-between shrink-0 h-screen sticky top-0">
-        <div>
-          <div className="p-5 px-6 flex items-center justify-between border-b border-slate-200/80 dark:border-slate-800/80">
-            <div className="flex items-center gap-2.5">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-600 text-white shadow-md shadow-indigo-500/20">
-                <GraduationCap className="h-5 w-5" />
-              </div>
-
-              <span className="font-bold text-lg tracking-tight bg-gradient-to-r from-slate-900 to-slate-700 dark:from-white dark:to-slate-300 bg-clip-text text-transparent">
-                CoachTrack
-              </span>
+      <aside className="hidden md:flex w-64 border-r border-slate-200/80 dark:border-slate-800/80 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md flex-col shrink-0 h-screen sticky top-0">
+        <div className="p-5 px-6 flex items-center justify-between border-b border-slate-200/80 dark:border-slate-800/80">
+          <div className="flex items-center gap-2.5">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-600 text-white shadow-md shadow-indigo-500/20">
+              <GraduationCap className="h-5 w-5" />
             </div>
-          </div>
 
+            <span className="font-bold text-lg tracking-tight bg-gradient-to-r from-slate-900 to-slate-700 dark:from-white dark:to-slate-300 bg-clip-text text-transparent">
+              CoachTrack
+            </span>
+          </div>
+        </div>
+
+        <div className="flex-1 overflow-y-auto">
           <SidebarContent />
         </div>
       </aside>
