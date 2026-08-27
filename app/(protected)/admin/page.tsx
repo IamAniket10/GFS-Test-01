@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { BookOpen, FileText, ArrowRight, ShieldCheck } from "lucide-react";
+import { BookOpen, FileText, ArrowRight, ShieldCheck, Users } from "lucide-react";
 import { useAuth } from "@/context/authContext";
 
 export default function AdminPage() {
@@ -27,6 +27,8 @@ export default function AdminPage() {
 
   const canManageCourses = hasAccess("courses");
   const canManageHomework = hasAccess("homework");
+  const isAdmin = user?.role === "admin";
+
 
   return (
     <div className="space-y-6 max-w-7xl mx-auto pb-10">
@@ -106,7 +108,36 @@ export default function AdminPage() {
             </p>
           </Link>
         )}
+
+        {isAdmin && (
+          <Link
+            href="/admin/referrals"
+            className="group rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm transition-all hover:-translate-y-0.5 hover:border-indigo-200 hover:shadow-md dark:border-slate-800 dark:bg-slate-900 dark:hover:border-indigo-900"
+          >
+            <div className="flex items-start justify-between">
+              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600 dark:bg-indigo-950/60 dark:text-indigo-400">
+                <Users className="h-5 w-5" />
+              </div>
+
+              <ArrowRight className="h-5 w-5 text-slate-400 transition-transform group-hover:translate-x-1 group-hover:text-indigo-500" />
+            </div>
+
+            <div className="mt-5 flex items-center gap-2">
+              <h3 className="text-base font-bold text-slate-900 dark:text-slate-100">
+                Client Referrals
+              </h3>
+              <span className="rounded-full bg-indigo-100 px-2 py-0.5 text-[10px] font-bold text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300">
+                Admin Only
+              </span>
+            </div>
+
+            <p className="mt-1.5 text-sm text-slate-500 dark:text-slate-400">
+              Search, filter, update statuses, and review student-submitted client referrals.
+            </p>
+          </Link>
+        )}
       </div>
     </div>
   );
 }
+
